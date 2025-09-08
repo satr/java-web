@@ -1,4 +1,4 @@
-package io.github.satr.javaweb;
+package io.github.satr.springapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
