@@ -8,6 +8,7 @@ RUN ./gradlew build --no-daemon --refresh-dependencies
 
 # Run stage
 FROM eclipse-temurin:24-jre
+RUN apt-get update && apt-get install -y curl
 WORKDIR /app
 COPY --from=builder /app/build/libs/api-*-SNAPSHOT.jar app.jar
 EXPOSE 8081

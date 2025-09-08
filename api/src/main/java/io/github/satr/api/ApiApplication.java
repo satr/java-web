@@ -18,6 +18,11 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
+	@GetMapping("/healthz")
+	public String healthz() {
+		return "OK";
+	}
+
 	@GetMapping("/greeting")
 	public Greeting greeting(@RequestParam(defaultValue = "World") String name) {
 		return new Greeting(counter.incrementAndGet(), String.format(template, name));
