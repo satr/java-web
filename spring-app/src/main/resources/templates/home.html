@@ -5,12 +5,46 @@
 </head>
 <body>
     <h1>Java Spring app example</h1>
+    <h3>Products</h3>
     <a href="/create-product">
         <button>Create Product</button>
     </a>
+    <table>
+        <thead>
+        <tr>
+            <th>Product Name</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <h3>Orders</h3>
     <a href="/create-order">
         <button>Create Order</button>
     </a>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Items</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td>
+                <a th:href="@{'/order/' + ${order.id}}" th:text="${order.id}"></a>
+            </td>
+            <td th:text="${order.items.size()}"></td>
+            <td th:text="${#numbers.formatDecimal(order.total, 0, 2)}"></td>
+        </tr>
+        </tbody>
+    </table>
 </body>
 </html>
-

@@ -16,11 +16,17 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(List<OrderItem> orderItems) {
-        Order order = new Order();
-        order.setId(UUID.randomUUID().toString());
-        order.setItems(orderItems);
+    public Order createOrder(Order order) {
+        if (order.getId() == null || order.getId().isEmpty()) {
+            order.setId(UUID.randomUUID().toString());
+        }
+        double total = order.getItems().stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
+        order.setTotal(total);
         return orderRepository.save(order);
+    }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
     }
 }
 

@@ -1,5 +1,6 @@
 package io.github.satr.springapp.controller;
 
+import io.github.satr.springapp.model.Product;
 import io.github.satr.springapp.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +16,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
-    @GetMapping("/create-product")
-    public String showCreateProductForm(Model model) {
-        model.addAttribute("status", "");
-        return "create-product";
-    }
-
     @PostMapping("/create-product")
     public String createProduct(@RequestParam String name,
                                 @RequestParam Double price,
                                 Model model) {
-        var product = productService.createProduct(name, price);
+        var product = new Product();
+        product.setName(name);
+        product.setPrice(price);
+        product = productService.createProduct(product);
         model.addAttribute("status", "Product created: " + product.getName());
         return "create-product";
     }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Order</title>
+</head>
+<body>
+<h1>Order</h1>
+    <h2 th:text="'Order: ' + ${orderId}"></h2>
+    <ul>
+        <li th:each="item : ${orderItems}" th:text="${item.productName + ' - ' + item.quantity + ' x $' + #numbers.formatDecimal(item.price, 1, 2)}"></li>
+    </ul>
+    <h3 th:text="'Total:' + ${#numbers.formatDecimal(total, 1, 2)}"></h3>
+<a href="/">Back to Home</a>
+</body>
+</html>

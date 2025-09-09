@@ -8,4 +8,5 @@ import java.util.List;
 public class Order {
     private String id;
     private List<OrderItem> items;
+    private Double total;
 }

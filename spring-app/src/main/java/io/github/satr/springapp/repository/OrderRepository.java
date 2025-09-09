@@ -9,9 +9,6 @@ public class OrderRepository {
     private final Map<String, Order> orders = new HashMap<>();
 
     public Order save(Order order) {
-        if (order.getId() == null || order.getId().isEmpty()) {
-            order.setId(UUID.randomUUID().toString());
-        }
         orders.put(order.getId(), order);
         return order;
     }

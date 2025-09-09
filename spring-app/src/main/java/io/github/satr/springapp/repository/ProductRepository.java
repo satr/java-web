@@ -9,9 +9,6 @@ public class ProductRepository {
     private final Map<String, Product> products = new HashMap<>();
 
     public Product save(Product product) {
-        if (product.getId() == null || product.getId().isEmpty()) {
-            product.setId(UUID.randomUUID().toString());
-        }
         products.put(product.getId(), product);
         return product;
     }
