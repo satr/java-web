@@ -11,9 +11,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @RestController
 public class ApiApplication {
 
-	private static final String template = "Hello, %s!";
-	private final AtomicLong counter = new AtomicLong();
-
 	public static void main(String[] args) {
 		SpringApplication.run(ApiApplication.class, args);
 	}
@@ -21,10 +18,5 @@ public class ApiApplication {
 	@GetMapping("/healthz")
 	public String healthz() {
 		return "OK";
-	}
-
-	@GetMapping("/greeting")
-	public Greeting greeting(@RequestParam(defaultValue = "World") String name) {
-		return new Greeting(counter.incrementAndGet(), String.format(template, name));
 	}
 }
