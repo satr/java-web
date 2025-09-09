@@ -4,6 +4,8 @@ import io.github.satr.springapp.model.Product;
 import io.github.satr.springapp.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -18,5 +20,8 @@ public class ProductService {
         product.setPrice(price);
         return productRepository.save(product);
     }
-}
 
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+}
