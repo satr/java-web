@@ -40,8 +40,7 @@ dependencies {
 sourceSets {
 	main {
 		java {
-			srcDir("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client/src/main/java")
-//			srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
+			srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
 		}
 	}
 }
@@ -53,8 +52,7 @@ tasks.withType<Test> {
 openApiGenerate {
 	generatorName.set("java")
 	inputSpec.set("${rootDir}/api/build/openapi.yaml")
-	outputDir.set("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client")
-//	outputDir.set("${layout.buildDirectory}/generated/openapi-client")
+	outputDir.set("${layout.buildDirectory}/generated/openapi-client")
 	apiPackage.set("io.github.satr.springapp.api")
 	modelPackage.set("io.github.satr.springapp.model")
 	invokerPackage.set("io.github.satr.springapp.invoker")
@@ -63,8 +61,7 @@ openApiGenerate {
 		"dateLibrary" to "java8"
 	))
 }
-sourceSets["main"].java.srcDir("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client/src/main/java")
-//sourceSets["main"].java.srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
+sourceSets["main"].java.srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
 
 tasks.named("compileJava") {
 	dependsOn("openApiGenerate")
