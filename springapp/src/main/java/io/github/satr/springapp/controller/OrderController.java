@@ -1,9 +1,6 @@
 package io.github.satr.springapp.controller;
 
-import io.github.satr.springapp.model.Order;
-import io.github.satr.springapp.model.OrderItem;
-import io.github.satr.springapp.model.Product;
-import io.github.satr.springapp.model.OrderItemView;
+import io.github.satr.springapp.dto.OrderItemView;
 import io.github.satr.springapp.service.OrderService;
 import io.github.satr.springapp.service.ProductService;
 import org.springframework.stereotype.Controller;

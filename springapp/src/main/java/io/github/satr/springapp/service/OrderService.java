@@ -1,8 +1,7 @@
 package io.github.satr.springapp.service;
 
-import io.github.satr.springapp.model.Order;
-import io.github.satr.springapp.model.OrderItem;
 import io.github.satr.springapp.repository.OrderRepository;
+import io.github.satr.springapp.model.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

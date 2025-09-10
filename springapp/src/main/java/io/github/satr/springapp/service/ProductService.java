@@ -1,9 +1,10 @@
 package io.github.satr.springapp.service;
 
 import io.github.satr.springapp.api.ProductControllerApi;
-import io.github.satr.springapp.model.Product;
 import io.github.satr.springapp.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import io.github.satr.springapp.model.Order;
+import io.github.satr.springapp.model.Product;
 
 import java.util.List;
 import java.util.UUID;

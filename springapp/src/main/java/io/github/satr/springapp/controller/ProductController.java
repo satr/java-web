@@ -1,6 +1,5 @@
 package io.github.satr.springapp.controller;
 
-import io.github.satr.springapp.model.Product;
 import io.github.satr.springapp.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

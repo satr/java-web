@@ -22,15 +22,28 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("com.google.code.findbugs:jsr305:3.0.2")
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("javax.annotation:javax.annotation-api:1.3.2")
+	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+	implementation("com.github.jsr107:javax.annotation:1.0")
 	compileOnly("org.projectlombok:lombok:1.18.38")
 	annotationProcessor("org.projectlombok:lombok:1.18.38")
 	testCompileOnly("org.projectlombok:lombok:1.18.38")
 	testAnnotationProcessor("org.projectlombok:lombok:1.18.38")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+sourceSets {
+	main {
+		java {
+			srcDir("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client/src/main/java")
+//			srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
+		}
+	}
 }
 
 tasks.withType<Test> {
@@ -40,7 +53,8 @@ tasks.withType<Test> {
 openApiGenerate {
 	generatorName.set("java")
 	inputSpec.set("${rootDir}/api/build/openapi.yaml")
-	outputDir.set("${buildDir}/generated/openapi-client")
+	outputDir.set("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client")
+//	outputDir.set("${layout.buildDirectory}/generated/openapi-client")
 	apiPackage.set("io.github.satr.springapp.api")
 	modelPackage.set("io.github.satr.springapp.model")
 	invokerPackage.set("io.github.satr.springapp.invoker")
@@ -49,4 +63,9 @@ openApiGenerate {
 		"dateLibrary" to "java8"
 	))
 }
-sourceSets["main"].java.srcDir("${buildDir}/generated/openapi-client/src/main/java")
+sourceSets["main"].java.srcDir("/Users/sergey.smolnikov/dev/github.com/java-web/springapp/build/generated/openapi-client/src/main/java")
+//sourceSets["main"].java.srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
+
+tasks.named("compileJava") {
+	dependsOn("openApiGenerate")
+}

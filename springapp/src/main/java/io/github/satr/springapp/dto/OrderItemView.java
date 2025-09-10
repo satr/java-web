@@ -1,4 +1,4 @@
-package io.github.satr.springapp.model;
+package io.github.satr.springapp.dto;
 
 public class OrderItemView {
     private String productId;

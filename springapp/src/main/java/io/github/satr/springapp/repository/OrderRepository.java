@@ -1,6 +1,5 @@
 package io.github.satr.springapp.repository;
 
-import io.github.satr.springapp.model.Order;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 

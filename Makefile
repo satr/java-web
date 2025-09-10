@@ -1,6 +1,6 @@
 .PHONY: gradle-build-springapp
 gradle-build-springapp:
-	./gradlew clean build --refresh-dependencies  ':springapp:bootJar'
+	./gradlew build --refresh-dependencies  ':springapp:bootJar'
 
 .PHONY: build-docker-spring-app
 build-docker-spring-app:
@@ -12,7 +12,7 @@ run-docker-spring-app: build-docker-spring-app
 
 .PHONY: gradle-build-api
 gradle-build-api:
-	./gradlew clean build --refresh-dependencies ':api:bootJar'
+	./gradlew build --refresh-dependencies ':api:bootJar'
 
 .PHONY: build-docker-api
 build-docker-api:
