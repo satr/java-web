@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.openapi.generator") version "7.4.0"
 }
 
 group = "io.github.satr"
@@ -35,3 +36,17 @@ dependencies {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+openApiGenerate {
+	generatorName.set("java")
+	inputSpec.set("${rootDir}/api/build/openapi.yaml")
+	outputDir.set("${buildDir}/generated/openapi-client")
+	apiPackage.set("io.github.satr.springapp.api")
+	modelPackage.set("io.github.satr.springapp.model")
+	invokerPackage.set("io.github.satr.springapp.invoker")
+	configOptions.set(mapOf(
+		"library" to "resttemplate",
+		"dateLibrary" to "java8"
+	))
+}
+sourceSets["main"].java.srcDir("${buildDir}/generated/openapi-client/src/main/java")

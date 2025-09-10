@@ -1,5 +1,6 @@
 package io.github.satr.springapp.service;
 
+import io.github.satr.springapp.api.ProductControllerApi;
 import io.github.satr.springapp.model.Product;
 import io.github.satr.springapp.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,11 @@ import java.util.UUID;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductControllerApi productApi;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, ProductControllerApi productApi) {
         this.productRepository = productRepository;
+        this.productApi = productApi;
         this.createProduct(createSomeProduct("p1", 1.2));
         this.createProduct(createSomeProduct("p2", 10.2));
     }
@@ -33,5 +36,10 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public List<Product> getAllProductsFromApi() {
+        // Example usage of generated OpenAPI client
+        return productApi.getProducts(); // Adjust method name if needed
     }
 }
