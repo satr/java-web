@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiClientConfig {
-    private ApiClient apiClient;
     @Value("${API_URL:http://localhost:8081}")
     private String apiUrl;
 
@@ -21,13 +20,13 @@ public class OpenApiClientConfig {
     }
 
     @Bean
-    public ProductControllerApi productControllerApi() {
-        return new ProductControllerApi(this.apiClient);
+    public ProductControllerApi productControllerApi(ApiClient apiClient) {
+        return new ProductControllerApi(apiClient);
     }
 
     @Bean
-    public OrderControllerApi orderControllerApi() {
-        return new OrderControllerApi(this.apiClient);
+    public OrderControllerApi orderControllerApi(ApiClient apiClient) {
+        return new OrderControllerApi(apiClient);
     }
 }
 
