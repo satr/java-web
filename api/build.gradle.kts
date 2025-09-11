@@ -26,7 +26,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-maven-plugin:3.5.5")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 	implementation("org.springdoc:springdoc-openapi-starter-common:2.5.0")
-	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	compileOnly("org.projectlombok:lombok:1.18.38")
 	annotationProcessor("org.projectlombok:lombok:1.18.38")

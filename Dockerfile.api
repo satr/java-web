@@ -1,15 +1,14 @@
-# syntax=docker/dockerfile:1
-
 # Build stage
-FROM eclipse-temurin:24-jdk AS builder
+FROM docker.io/library/gradle:jdk24 AS builder
 WORKDIR /app
-COPY . .
+COPY --chown=gradle:gradle . /app
+COPY ./api ./api
 RUN ./gradlew build --no-daemon --refresh-dependencies
 
 # Run stage
-FROM eclipse-temurin:24-jre
+FROM docker.io/library/openjdk:24-slim
 RUN apt-get update && apt-get install -y curl
 WORKDIR /app
-COPY --from=builder /app/build/libs/api-*-SNAPSHOT.jar app.jar
+COPY --from=builder /app/api/build/libs/api-*.jar app.jar
 EXPOSE 8081
 ENTRYPOINT ["java", "-jar", "app.jar"]

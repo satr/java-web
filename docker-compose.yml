@@ -1,22 +1,7 @@
 services:
-  springapp:
-    build:
-      context: ./spring-app
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8081/healthz"]
-      interval: 10s
-      timeout: 5s
-      retries: 15
-    depends_on:
-      api:
-        condition: service_healthy
   api:
     build:
-      context: ./api
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.api
     ports:
       - "8081:8081"
     healthcheck:
@@ -24,4 +9,18 @@ services:
       interval: 10s
       timeout: 5s
       retries: 15
-
+  springapp:
+    build:
+      dockerfile: Dockerfile.springapp
+    ports:
+      - "8080:8080"
+    environment:
+      API_URL: "http://api:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+    depends_on:
+      api:
+        condition: service_healthy

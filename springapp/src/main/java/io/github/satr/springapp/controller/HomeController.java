@@ -19,11 +19,6 @@ public class HomeController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/healthz")
-    public String heathz() {
-        return "OK";
-    }
-
     @GetMapping("/")
     public String home(Model model) {
         List<Order> orders = this.orderService.getAllOrders();

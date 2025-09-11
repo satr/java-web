@@ -1,0 +1,15 @@
+# Build stage
+FROM docker.io/library/gradle:jdk24 AS builder
+WORKDIR /app
+COPY --chown=gradle:gradle . /app
+COPY ./springapp ./springapp
+COPY ./api/openapi.yaml ./api
+RUN ./gradlew build --no-daemon --refresh-dependencies
+
+# Run stage
+FROM docker.io/library/openjdk:24-slim
+RUN apt-get update && apt-get install -y curl
+WORKDIR /app
+COPY --from=builder /app/springapp/build/libs/springapp-*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
