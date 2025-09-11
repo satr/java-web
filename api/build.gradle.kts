@@ -2,6 +2,7 @@ plugins {
 	java
 	id("org.springframework.boot") version "3.5.5"
 	id("io.spring.dependency-management") version "1.1.7"
+	id("org.springdoc.openapi-gradle-plugin") version "1.7.0"
 }
 
 group = "io.github.satr"
@@ -35,20 +36,10 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-// Task to export OpenAPI spec
-val exportOpenApiSpec by tasks.registering(JavaExec::class) {
-	group = "documentation"
-	description = "Exports OpenAPI spec to openapi.yaml"
-	classpath = sourceSets["main"].runtimeClasspath
-	mainClass.set("io.github.satr.api.ApiApplication") // Update with your main class
-	args = listOf("--springdoc.api-docs.path=/v3/api-docs.yaml", "--springdoc.api-docs.enabled=true")
-	environment["SPRING_PROFILES_ACTIVE"] = "openapi"
-}
-
-tasks.register<Exec>("fetchOpenApiYaml") {
-	group = "documentation"
-	description = "Fetches OpenAPI YAML from running server and saves to build/openapi.yaml"
-	commandLine("curl", "-o", "build/openapi.yaml", "http://localhost:8081/v3/api-docs.yaml")
+openApi {
+	outputDir.set(file("$projectDir"))
+	outputFileName.set("openapi.yaml")
+	apiDocsUrl.set("http://localhost:8081/v3/api-docs.yaml")
 }
 
 tasks.withType<Test> {

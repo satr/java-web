@@ -1,6 +1,9 @@
 package io.github.satr.springapp.controller;
 
 import io.github.satr.springapp.dto.OrderItemView;
+import io.github.satr.springapp.model.Product;
+import io.github.satr.springapp.model.Order;
+import io.github.satr.springapp.model.OrderItem;
 import io.github.satr.springapp.service.OrderService;
 import io.github.satr.springapp.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -23,16 +26,23 @@ public class OrderController {
         this.productService = productService;
     }
 
-    @PostMapping("/create-order")
+    @GetMapping("/orders")
+    public String getOrders(Model model) {
+        var products = this.productService.getAllProducts();
+        model.addAttribute("products", products);
+        return "orders";
+    }
+
+    @PostMapping("/orders")
     public String createOrder(@RequestParam Map<String, String> params, Model model) {
         Order order = new Order();
         var orderItems = getOrderItemsFromRequest(params);
         order.setItems(orderItems);
-        order = orderService.createOrder(order);
-        model.addAttribute("status", "Order created: " + order.getId());
+        orderService.createOrder(order);
+        model.addAttribute("status", "Order created");
         var products = this.productService.getAllProducts();
         model.addAttribute("products", products);
-        return "create-order";
+        return "orders";
     }
 
     private List<OrderItem> getOrderItemsFromRequest(Map<String, String> params) {

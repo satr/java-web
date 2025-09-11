@@ -28,7 +28,6 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("javax.annotation:javax.annotation-api:1.3.2")
 	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
-	implementation("com.github.jsr107:javax.annotation:1.0")
 	compileOnly("org.projectlombok:lombok:1.18.38")
 	annotationProcessor("org.projectlombok:lombok:1.18.38")
 	testCompileOnly("org.projectlombok:lombok:1.18.38")
@@ -37,22 +36,14 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
-sourceSets {
-	main {
-		java {
-			srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
-		}
-	}
-}
-
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
 openApiGenerate {
 	generatorName.set("java")
-	inputSpec.set("${rootDir}/api/build/openapi.yaml")
-	outputDir.set("${layout.buildDirectory}/generated/openapi-client")
+	inputSpec.set("${rootDir}/api/openapi.yaml")
+	outputDir.set("${rootDir}/springapp/openapi-client")
 	apiPackage.set("io.github.satr.springapp.api")
 	modelPackage.set("io.github.satr.springapp.model")
 	invokerPackage.set("io.github.satr.springapp.invoker")
@@ -61,7 +52,14 @@ openApiGenerate {
 		"dateLibrary" to "java8"
 	))
 }
-sourceSets["main"].java.srcDir("${layout.buildDirectory}/generated/openapi-client/src/main/java")
+
+sourceSets {
+	main {
+		java {
+			srcDir("openapi-client/src/main/java")
+		}
+	}
+}
 
 tasks.named("compileJava") {
 	dependsOn("openApiGenerate")

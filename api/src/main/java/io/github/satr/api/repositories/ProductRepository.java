@@ -20,5 +20,9 @@ public class ProductRepository {
     public List<Product> findAll() {
         return new ArrayList<>(products.values());
     }
+
+    public Product get(String id) {
+        return products.get(id);
+    }
 }
 

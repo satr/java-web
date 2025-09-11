@@ -12,3 +12,10 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+# Install
+* Install openapi generator
+```
+npm install @openapitools/openapi-generator-cli -g
+#or
+brew install openapi-generator
+```

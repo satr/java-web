@@ -1,6 +1,6 @@
 package io.github.satr.springapp.service;
 
-import io.github.satr.springapp.repository.OrderRepository;
+import io.github.satr.springapp.api.OrderControllerApi;
 import io.github.satr.springapp.model.Order;
 import org.springframework.stereotype.Service;
 
@@ -9,23 +9,23 @@ import java.util.UUID;
 
 @Service
 public class OrderService {
-    private final OrderRepository orderRepository;
+    private final OrderControllerApi orderApi;
 
-    public OrderService(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public OrderService(OrderControllerApi orderApi) {
+        this.orderApi = orderApi;
     }
 
-    public Order createOrder(Order order) {
+    public void createOrder(Order order) {
         if (order.getId() == null || order.getId().isEmpty()) {
             order.setId(UUID.randomUUID().toString());
         }
         double total = order.getItems().stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum();
         order.setTotal(total);
-        return orderRepository.save(order);
+        this.orderApi.createOrder(order);
     }
 
     public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+        return this.orderApi.getOrders();
     }
 }
 

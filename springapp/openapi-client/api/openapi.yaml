@@ -1,0 +1,179 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- description: Generated server url
+  url: http://localhost:8081
+paths:
+  /products:
+    get:
+      operationId: getProducts
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+                type: array
+          description: List of products
+      summary: Get all products
+      tags:
+      - product-controller
+      x-accepts: '*/*'
+    post:
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
+      responses:
+        "200":
+          description: OK
+      tags:
+      - product-controller
+      x-content-type: application/json
+      x-accepts: application/json
+  /orders:
+    get:
+      operationId: getOrders
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                items:
+                  $ref: "#/components/schemas/Order"
+                type: array
+          description: List of orders
+      summary: Get all orders
+      tags:
+      - order-controller
+      x-accepts: '*/*'
+    post:
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        required: true
+      responses:
+        "200":
+          description: OK
+      tags:
+      - order-controller
+      x-content-type: application/json
+      x-accepts: application/json
+  /products/{id}:
+    get:
+      operationId: getProduct
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Product"
+          description: OK
+      tags:
+      - product-controller
+      x-accepts: '*/*'
+  /orders/{id}:
+    get:
+      operationId: getOrder
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/Order"
+          description: OK
+      tags:
+      - order-controller
+      x-accepts: '*/*'
+  /healthz:
+    get:
+      operationId: healthz
+      responses:
+        "200":
+          content:
+            '*/*':
+              schema:
+                type: string
+          description: OK
+      tags:
+      - api-application
+      x-accepts: '*/*'
+components:
+  schemas:
+    Product:
+      example:
+        price: 0.8008281904610115
+        name: name
+        id: id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          format: double
+          type: number
+      type: object
+    Order:
+      example:
+        total: 1.4658129805029452
+        id: id
+        items:
+        - quantity: 0
+          productId: productId
+          price: 6.027456183070403
+        - quantity: 0
+          productId: productId
+          price: 6.027456183070403
+      properties:
+        id:
+          type: string
+        items:
+          items:
+            $ref: "#/components/schemas/OrderItem"
+          type: array
+        total:
+          format: double
+          type: number
+      type: object
+    OrderItem:
+      example:
+        quantity: 0
+        productId: productId
+        price: 6.027456183070403
+      properties:
+        productId:
+          type: string
+        quantity:
+          format: int32
+          type: integer
+        price:
+          format: double
+          type: number
+      type: object
+

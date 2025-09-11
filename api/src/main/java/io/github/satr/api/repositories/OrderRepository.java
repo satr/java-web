@@ -20,5 +20,9 @@ public class OrderRepository {
     public List<Order> findAll() {
         return new ArrayList<>(orders.values());
     }
+
+    public Order get(String id) {
+        return orders.get(id);
+    }
 }
 
