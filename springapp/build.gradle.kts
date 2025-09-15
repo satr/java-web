@@ -21,13 +21,15 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-web:3.5.5")
 	implementation("com.google.code.findbugs:jsr305:3.0.2")
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter:3.5.5")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.5.5")
+	implementation("org.springframework.boot:spring-boot-starter-actuator:3.5.5")
 	implementation("javax.annotation:javax.annotation-api:1.3.2")
 	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.5.5")
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-client:3.5.5")
 	compileOnly("org.projectlombok:lombok:1.18.38")
 	annotationProcessor("org.projectlombok:lombok:1.18.38")
 	testCompileOnly("org.projectlombok:lombok:1.18.38")

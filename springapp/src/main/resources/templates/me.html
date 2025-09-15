@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Java Spring app example</title>
+</head>
+<body>
+    <h1>Java Spring app example</h1>
+    <h3>Me</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${name}"></td>
+            <td th:text="${email}"></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

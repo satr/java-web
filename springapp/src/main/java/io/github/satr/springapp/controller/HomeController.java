@@ -2,12 +2,11 @@ package io.github.satr.springapp.controller;
 
 import io.github.satr.springapp.model.Order;
 import io.github.satr.springapp.service.OrderService;
-import io.github.satr.springapp.service.ProductService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -24,5 +23,11 @@ public class HomeController {
         List<Order> orders = this.orderService.getAllOrders();
         model.addAttribute("orders", orders);
         return "home";
+    }
+
+    @GetMapping("/me")
+    public String me(@AuthenticationPrincipal OidcUser user, Model model) {
+        model.addAttribute("email", user.getEmail());
+        return "me";
     }
 }
