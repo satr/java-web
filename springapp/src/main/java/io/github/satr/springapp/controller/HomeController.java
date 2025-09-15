@@ -27,6 +27,7 @@ public class HomeController {
 
     @GetMapping("/me")
     public String me(@AuthenticationPrincipal OidcUser user, Model model) {
+        model.addAttribute("name", user.getAttributes().get("name"));
         model.addAttribute("email", user.getEmail());
         return "me";
     }
