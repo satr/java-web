@@ -18,5 +18,5 @@ brew install openapi-generator
 ```
 
 ## Authentication
-* On a server, with email prefix-postfix (for demo purpose) - branch [auth-by-email](https://github.com/satr/java-web/tree/auth-by-email)
+* On a server, by claims (here - email prefix-postfix, for demo purpose) - branch [auth-by-email](https://github.com/satr/java-web/tree/auth-by-email)
 * 
