@@ -6,9 +6,11 @@
 <body>
     <h1>Java Spring app example</h1>
     <h3>Products</h3>
+    <div   th:hidden="${showAdminItems != true}">
     <a href="/products">
         <button>Create Product</button>
     </a>
+    </div>
     <table>
         <thead>
         <tr>
@@ -25,9 +27,11 @@
     </table>
     <hr>
     <h3>Orders</h3>
+    <div   th:hidden="${showAdminItems != true}">
     <a href="/orders">
-        <button>Create Order</button>
+        <button >Create Order</button>
     </a>
+    </div>
     <table>
         <thead>
         <tr>

@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-public class OrderController {
+public class OrderController extends AbstractController {
     private final OrderService orderService;
     private final ProductService productService;
 
@@ -27,14 +27,15 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public String getOrders(Model model) {
+    public String createOrder(Model model) {
         var products = this.productService.getAllProducts();
         model.addAttribute("products", products);
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "orders";
     }
 
     @PostMapping("/orders")
-    public String createOrder(@RequestParam Map<String, String> params, Model model) {
+    public String saveOrder(@RequestParam Map<String, String> params, Model model) {
         Order order = new Order();
         var orderItems = getOrderItemsFromRequest(params);
         order.setItems(orderItems);
@@ -42,6 +43,7 @@ public class OrderController {
         model.addAttribute("status", "Order created");
         var products = this.productService.getAllProducts();
         model.addAttribute("products", products);
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "orders";
     }
 
@@ -109,6 +111,7 @@ public class OrderController {
         model.addAttribute("orderItems", orderItemViews);
         model.addAttribute("orderId", order.getId());
         model.addAttribute("total", order.getTotal());
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "order-details";
     }
 }

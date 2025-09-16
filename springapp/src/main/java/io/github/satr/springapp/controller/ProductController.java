@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class ProductController {
+public class ProductController extends AbstractController {
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -20,11 +20,12 @@ public class ProductController {
     public String getProducts(Model model) {
         var products = this.productService.getAllProducts();
         model.addAttribute("products", products);
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "products";
     }
 
     @PostMapping("/products")
-    public String createProduct(@RequestParam String name,
+    public String saveProduct(@RequestParam String name,
                                 @RequestParam Double price,
                                 Model model) {
         var product = new Product();
@@ -32,6 +33,7 @@ public class ProductController {
         product.setPrice(price);
         productService.createProduct(product);
         model.addAttribute("status", "Product created: " + product.getName());
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "products";
     }
 }

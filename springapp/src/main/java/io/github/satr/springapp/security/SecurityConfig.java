@@ -47,35 +47,37 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain security(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(a -> a.anyRequest().authenticated()
-//                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+        http.authorizeHttpRequests(a -> a
+                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/products/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .oauth2Login(Customizer.withDefaults());
         return http.build();
     }
 
 
-//    @Bean
-//    OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
-//        var delegate = new OidcUserService();
-//        return req -> {
-//            OidcUser u = delegate.loadUser(req);
-//
-//            // Build authorities set
-//            var auths = new java.util.HashSet<GrantedAuthority>(u.getAuthorities());
-//
-//            // Example: infer roles from email or domain
-//            var email = u.getEmail();
-//            if (email.startsWith("exp") && email.endsWith("@gmail.com")) {
-//                auths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//            }
-//
-//            // If you load roles from DB, do it here and add ROLE_* authorities.
-//            return new DefaultOidcUser(auths, u.getIdToken(), "email");
-//        };
-//    }
+    @Bean
+    OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
+        var delegate = new OidcUserService();
+        return req -> {
+            OidcUser u = delegate.loadUser(req);
+
+            // Build authorities set
+            var auths = new java.util.HashSet<GrantedAuthority>(u.getAuthorities());
+
+            // Example: infer roles from email or domain
+            var email = u.getEmail();
+            if (email.startsWith("exp") && email.endsWith("@gmail.com")) {
+                auths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }
+
+            // If you load roles from DB, do it here and add ROLE_* authorities.
+            return new DefaultOidcUser(auths, u.getIdToken(), "email");
+        };
+    }
 
     @PostConstruct
     void logCid() {

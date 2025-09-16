@@ -2,6 +2,7 @@ package io.github.satr.springapp.controller;
 
 import io.github.satr.springapp.model.Order;
 import io.github.satr.springapp.service.OrderService;
+import io.github.satr.springapp.service.ProductService;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -11,17 +12,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class HomeController extends AbstractController {
     private final OrderService orderService;
+    private final ProductService productService;
 
-    public HomeController(OrderService orderService) {
+    public HomeController(ProductService productService, OrderService orderService) {
+        this.productService = productService;
         this.orderService = orderService;
     }
 
     @GetMapping("/")
     public String home(Model model) {
+        var products = this.productService.getAllProducts();
+        model.addAttribute("products", products);
         List<Order> orders = this.orderService.getAllOrders();
         model.addAttribute("orders", orders);
+        model.addAttribute("showAdminItems", hasAdminRole());
         return "home";
     }
 
