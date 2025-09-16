@@ -6,6 +6,7 @@ import io.github.satr.springapp.model.Order;
 import io.github.satr.springapp.model.OrderItem;
 import io.github.satr.springapp.service.OrderService;
 import io.github.satr.springapp.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ public class OrderController extends AbstractController {
         this.productService = productService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/orders")
     public String createOrder(Model model) {
         var products = this.productService.getAllProducts();
@@ -34,6 +36,7 @@ public class OrderController extends AbstractController {
         return "orders";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/orders")
     public String saveOrder(@RequestParam Map<String, String> params, Model model) {
         Order order = new Order();
@@ -45,6 +48,36 @@ public class OrderController extends AbstractController {
         model.addAttribute("products", products);
         model.addAttribute("showAdminItems", hasAdminRole());
         return "orders";
+    }
+
+    @GetMapping("/order/{orderId}")
+    public String showOrderDetails(@PathVariable String orderId, Model model) {
+        Order order = orderService.getAllOrders().stream()
+                .filter(o -> o.getId().equals(orderId))
+                .findFirst()
+                .orElse(null);
+        if (order == null) {
+            model.addAttribute("status", "Order not found");
+            model.addAttribute("orderItems", Collections.emptyList());
+            return "order-details";
+        }
+        Map<String, Product> productMap = getProductMap();
+        List<OrderItemView> orderItemViews = new ArrayList<>();
+        for (OrderItem item : order.getItems()) {
+            Product product = productMap.get(item.getProductId());
+            String productName = product != null ? product.getName() : "Unknown";
+            orderItemViews.add(new OrderItemView(
+                    item.getProductId(),
+                    productName,
+                    item.getPrice(),
+                    item.getQuantity()
+            ));
+        }
+        model.addAttribute("orderItems", orderItemViews);
+        model.addAttribute("orderId", order.getId());
+        model.addAttribute("total", order.getTotal());
+        model.addAttribute("showAdminItems", hasAdminRole());
+        return "order-details";
     }
 
     private List<OrderItem> getOrderItemsFromRequest(Map<String, String> params) {
@@ -83,35 +116,5 @@ public class OrderController extends AbstractController {
     private Map<String, Product> getProductMap() {
         Map<String, Product> products = productService.getAllProducts().stream().collect(Collectors.toMap(Product::getId, product -> product));
         return products;
-    }
-
-    @GetMapping("/order/{orderId}")
-    public String showOrderDetails(@PathVariable String orderId, Model model) {
-        Order order = orderService.getAllOrders().stream()
-            .filter(o -> o.getId().equals(orderId))
-            .findFirst()
-            .orElse(null);
-        if (order == null) {
-            model.addAttribute("status", "Order not found");
-            model.addAttribute("orderItems", Collections.emptyList());
-            return "order-details";
-        }
-        Map<String, Product> productMap = getProductMap();
-        List<OrderItemView> orderItemViews = new ArrayList<>();
-        for (OrderItem item : order.getItems()) {
-            Product product = productMap.get(item.getProductId());
-            String productName = product != null ? product.getName() : "Unknown";
-            orderItemViews.add(new OrderItemView(
-                item.getProductId(),
-                productName,
-                item.getPrice(),
-                item.getQuantity()
-            ));
-        }
-        model.addAttribute("orderItems", orderItemViews);
-        model.addAttribute("orderId", order.getId());
-        model.addAttribute("total", order.getTotal());
-        model.addAttribute("showAdminItems", hasAdminRole());
-        return "order-details";
     }
 }

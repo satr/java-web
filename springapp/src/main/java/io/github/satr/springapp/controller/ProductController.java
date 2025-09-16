@@ -2,6 +2,7 @@ package io.github.satr.springapp.controller;
 
 import io.github.satr.springapp.service.ProductService;
 import io.github.satr.springapp.model.Product;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ public class ProductController extends AbstractController {
         this.productService = productService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/products")
     public String getProducts(Model model) {
         var products = this.productService.getAllProducts();
@@ -24,6 +26,7 @@ public class ProductController extends AbstractController {
         return "products";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/products")
     public String saveProduct(@RequestParam String name,
                                 @RequestParam Double price,

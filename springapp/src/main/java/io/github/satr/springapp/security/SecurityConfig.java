@@ -48,10 +48,6 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain security(@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(a -> a
-                        .requestMatchers(HttpMethod.POST).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/products/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(Customizer.withDefaults());
